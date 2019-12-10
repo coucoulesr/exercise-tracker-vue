@@ -4,20 +4,20 @@
       <div class="container-fluid">
         <router-link class="navbar-brand" to="/">Exercise Log</router-link>
         <div class="navbar-nav ml-auto">
-          <router-link class="nav-item nav-link" to="/meetings" v-if="user"
+          <router-link class="nav-item nav-link" to="/meetings" v-if="this.$store.state.loggedIn"
             >Add Exercise</router-link
           >
-          <router-link class="nav-item nav-link" to="/login" v-if="!user"
+          <router-link class="nav-item nav-link" to="/login" v-if="!this.$store.state.loggedIn"
             >Login</router-link
           >
-          <router-link class="nav-item nav-link" to="/register" v-if="!user"
+          <router-link class="nav-item nav-link" to="/register" v-if="!this.$store.state.loggedIn"
             >Register</router-link
           >
           <a
             href="#"
             class="nav-item nav-link"
-            @click.prevent="$emit('logout')"
-            v-if="user"
+            @click.prevent="logout"
+            v-if="this.$store.state.loggedIn"
             >Logout</a
           >
         </div>
@@ -29,7 +29,15 @@
 <script>
 export default {
   name: "navigation",
-  props: ["user"],
-  components: {}
+  props: [],
+  components: {},
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/')
+    }
+  },
+  computed: {
+  }
 };
 </script>

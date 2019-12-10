@@ -8,19 +8,15 @@
               <div class="card-body">
                 <h3 class="font-weight-light mb-3">Log in</h3>
                 <section class="form-group">
-                  <div class="col-12 alert alert-danger px-3" v-if="error">
-                    {{ error }}
-                  </div>
-                  <label class="form-control-label sr-only" for="Email"
-                    >Email</label
-                  >
+                  <div class="col-12 alert alert-danger px-3" v-if="error">{{ error }}</div>
+                  <label class="form-control-label sr-only" for="Username">Username</label>
                   <input
                     required
                     class="form-control"
-                    type="email"
-                    id="email"
-                    placeholder="Email"
-                    v-model="email"
+                    type="username"
+                    id="username"
+                    placeholder="Username"
+                    v-model="username"
                   />
                 </section>
                 <section class="form-group">
@@ -49,19 +45,41 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   name: "login",
   data: function() {
     return {
-      email: "",
+      username: "",
       password: "",
       error: ""
     };
   },
   methods: {
     login: function() {
-
+      this.error = "";
+      axios
+        .post("http://localhost:5000/login", {
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          localStorage.setItem("token", response.data);
+          axios.defaults.headers.common["Authorization"] = response.data;
+          this.$store.dispatch("login", {
+            token: response.data,
+            username: this.username
+          });
+          this.$router.push("exercise-log");
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            this.error = "Invalid username or password";
+          } else {
+            this.error = err;
+          }
+        });
     }
   },
   components: {}
