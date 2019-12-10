@@ -52,6 +52,18 @@ export default new Vuex.Store({
         .catch(err => {
           console.error(err);
         });
+    },
+    deleteExerciseById({ commit }, id) {
+      axios
+        .delete("http://localhost:5000/exercises/" + id)
+        .then(res => {
+          if (res.status == 204) {
+            commit("removeExerciseById", id);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   },
   modules: {}

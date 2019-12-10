@@ -2,7 +2,14 @@
   <div class="container mt-4">
     <div class="row justify-content-center">
       <div class="col-12 col-md-9 col-lg-7">
-        <h1 class="text-center mb-3">Your Exercise Log <button class="ml-3 btn btn-primary font-weight-bold" v-if="!addExerciseFormVisible" @click.prevent="showForm()">+</button></h1>
+        <h1 class="text-center mb-3">
+          Your Exercise Log
+          <button
+            class="ml-3 btn btn-primary font-weight-bold"
+            v-if="!addExerciseFormVisible"
+            @click.prevent="showForm()"
+          >+</button>
+        </h1>
         <div class="card bg-light py-0" v-if="addExerciseFormVisible">
           <div class="card-body text-center pb-1">
             <form class="form-group" @submit.prevent="addExercise">
@@ -21,21 +28,17 @@
                 </section>
               </div>
               <div class="form-row">
-                  <section class="col-sm-6 form-group">
-                    <input
-                      class="form-control"
-                      type="text"
-                      placeholder="Duration (min)"
-                      v-model="newDuration"
-                    />
-                  </section>
-                  <section class="col-sm-6 form-group">
-                    <input
-                      class="form-control"
-                      type="date"
-                      v-model="newDate"
-                    />
-                  </section>
+                <section class="col-sm-6 form-group">
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Duration (min)"
+                    v-model="newDuration"
+                  />
+                </section>
+                <section class="col-sm-6 form-group">
+                  <input class="form-control" type="date" v-model="newDate" />
+                </section>
               </div>
               <div class="form-group text-right mb-0">
                 <input class="btn btn-primary" value="Add Exercise" type="submit" />
@@ -65,7 +68,7 @@
                 <td class="font-weight-light text-center">{{ item.date.substr(0, 10) }}</td>
                 <td class="text-center">
                   <router-link class="btn btn-sm btn-outline-secondary" title="Edit" :to="'/edit/' + item._id">
-                  <font-awesome-icon icon="edit" />
+                    <font-awesome-icon icon="edit" />
                   </router-link>
 
                   <button
@@ -73,8 +76,8 @@
                     title="Delete"
                     @click.prevent="deleteExercise(item._id)"
                   >
-                  <font-awesome-icon icon="trash" />
-                </button>
+                    <font-awesome-icon icon="trash" />
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -110,7 +113,9 @@ export default {
       this.addExerciseFormVisible = false;
     },
     addExercise() {},
-    deleteExercise(id) { return id },
+    deleteExercise(id) {
+      this.$store.dispatch('deleteExerciseById', id);
+    }
   },
   computed: {
     exercises: function() {
