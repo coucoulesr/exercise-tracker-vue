@@ -4,6 +4,9 @@
       <div class="container-fluid">
         <router-link class="navbar-brand" to="/">Exercise Log</router-link>
         <div class="navbar-nav ml-auto">
+          <router-link class="nav-item nav-link" to="/exercise-log" v-if="this.$store.state.loggedIn"
+            >Exercise Log</router-link
+          >
           <router-link class="nav-item nav-link" to="/login" v-if="!this.$store.state.loggedIn"
             >Login</router-link
           >
