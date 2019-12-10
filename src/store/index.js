@@ -32,6 +32,12 @@ export default new Vuex.Store({
     },
     removeExerciseById(state, id) {
       state.exercises = state.exercises.filter(ex => ex._id != id);
+    },
+    editExerciseById(state, payload) {
+      let exercise = state.exercises.find(ex => ex._id == payload.id);
+      exercise.duration = payload.exerciseObject.duration;
+      exercise.date = payload.exerciseObject.date;
+      exercise.description = payload.exerciseObject.description;
     }
   },
   actions: {
@@ -70,6 +76,18 @@ export default new Vuex.Store({
           if (res.status == 204) {
             commit("removeExerciseById", id);
           }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    editExercise({ commit }, {id, exerciseObject}) {
+      console.log(exerciseObject)
+      axios
+        .put("http://localhost:5000/exercises/" + id, exerciseObject)
+        .then(res => {
+          console.log(res)
+          commit("editExerciseById", { id: res.data._id, exerciseObject: res.data });
         })
         .catch(err => {
           console.error(err);

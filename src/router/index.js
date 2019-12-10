@@ -30,8 +30,8 @@ const routes = [
     component: ExerciseLog
   },
   {
-    path: "/edit-exercise",
-    name: "edit-exercise",
+    path: "/edit/:id",
+    name: "edit",
     component: EditExercise
   },
 ];
