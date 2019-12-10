@@ -14,7 +14,6 @@
           <div class="card-body text-center pb-1">
             <form class="form-group" @submit.prevent="addExercise">
               <div class="form-row">
-                <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
                 <section class="col-sm-12 form-group">
                   <input
                     class="form-control"
