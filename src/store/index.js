@@ -53,6 +53,16 @@ export default new Vuex.Store({
           console.error(err);
         });
     },
+    addExercise({ commit }, exerciseObject) {
+      axios
+        .post("http://localhost:5000/exercises/", exerciseObject)
+        .then(res => {
+          commit("addExercise", res.data);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
     deleteExerciseById({ commit }, id) {
       axios
         .delete("http://localhost:5000/exercises/" + id)

@@ -111,7 +111,18 @@ export default {
       this.newDescription = "";
       this.addExerciseFormVisible = false;
     },
-    addExercise() {},
+    addExercise() {
+      const exListLength = this.exercises.length
+      this.$store.dispatch('addExercise', {
+        description: this.newDescription,
+        duration: this.newDuration,
+        date: this.newDate
+      })
+      setTimeout(() => {
+        if (this.exercises.length > exListLength) {
+          this.clearForm()
+        }}, 1000)
+    },
     deleteExercise(id) {
       this.$store.dispatch('deleteExerciseById', id);
     }
