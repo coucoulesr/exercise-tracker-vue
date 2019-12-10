@@ -4,7 +4,6 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import ExerciseLog from "../views/ExerciseLog.vue";
-import AddExercise from "../views/AddExercise.vue";
 import EditExercise from "../views/EditExercise.vue";
 
 Vue.use(VueRouter);
@@ -29,11 +28,6 @@ const routes = [
     path: "/exercise-log",
     name: "exercise-log",
     component: ExerciseLog
-  },
-  {
-    path: "/add-exercise",
-    name: "add-exercise",
-    component: AddExercise
   },
   {
     path: "/edit-exercise",
