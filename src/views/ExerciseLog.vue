@@ -49,32 +49,36 @@
     <div class="row justify-content-center">
       <div class="col-11 col-md-8 col-lg-6">
         <div class="card rounded-0">
-          <div class="list-group list-group-flush">
-            <div
-              class="list-group-item d-flex align-center justify-content-between"
-              v-for="item in exercises"
-              :key="item._id"
-            >
-              <div class="mx-2 d-inline-flex justify-content-between flex-grow-1 align-center">
-                <div class="col text-center">{{ item.description }}</div>
-                <div class="col text-center">{{ item.duration }} min.</div>
-                <div class="col text-center">{{ item.date.substr(0,10) }}</div>
-              </div>
-              <section
-                class="btn-group align-self-center flex-grow-0"
-                role="group"
-                aria-label="Exercise Options"
-              >
-                <button class="btn btn-sm btn-outline-secondary" title="Edit" to="/">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="font-weight-normal text-center" scope="col">Exercise</th>
+                <th class="font-weight-normal text-center" scope="col">Duration (min.)</th>
+                <th class="font-weight-normal text-center" scope="col">Date</th>
+                <th class="font-weight-normal text-center" scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in exercises" :key="item._id">
+                <td class="font-weight-light text-center">{{ item.description }}</td>
+                <td class="font-weight-light text-center">{{ item.duration }}</td>
+                <td class="font-weight-light text-center">{{ item.date.substr(0, 10) }}</td>
+                <td class="text-center">
+                  <router-link class="btn btn-sm btn-outline-secondary" title="Edit" :to="'/edit/' + item._id">
                   <font-awesome-icon icon="edit" />
-                </button>
+                  </router-link>
 
-                <button class="btn btn-sm btn-outline-secondary" title="Delete" @click.prevent="deleteExercise(item._id)">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    title="Delete"
+                    @click.prevent="deleteExercise(item._id)"
+                  >
                   <font-awesome-icon icon="trash" />
                 </button>
-              </section>
-            </div>
-          </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
