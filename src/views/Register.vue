@@ -10,15 +10,15 @@
                 <div class="form-row">
                   <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
                   <section class="col-sm-12 form-group">
-                    <label class="form-control-label sr-only" for="displayName">Display Name</label>
+                    <label class="form-control-label sr-only" for="displayName">Username</label>
                     <input
                       class="form-control"
                       type="text"
-                      id="displayName"
-                      placeholder="Display Name"
-                      name="displayName"
+                      id="username"
+                      placeholder="Username"
+                      name="username"
                       required
-                      v-model="displayName"
+                      v-model="username"
                     />
                   </section>
                 </div>
@@ -60,11 +60,13 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "register",
   data: function() {
     return {
-      displayName: null,
+      username: null,
       passOne: null,
       passTwo: null,
       error: null
@@ -77,13 +79,32 @@ export default {
         this.passTwo !== "" &&
         this.passTwo !== this.passOne
       ) {
-        this.error = "Passwords must match.";
+        this.error = "Passwords do not match.";
       } else {
         this.error = null;
       }
     }
   },
-  methods: {},
+  methods: {
+    register() {
+      if (this.passOne !== this.passTwo) {
+        return null;
+      }
+      axios
+        .post("http://localhost:5000/register", {
+          username: this.username,
+          password: this.passOne
+        })
+        .then(response => {
+          this.$store.dispatch("login", {
+            username: this.username,
+            token: response.data
+          });
+          this.$router.push("exercise-log");
+        })
+        .catch(err => (this.error = err.response.data));
+    }
+  },
   components: {}
 };
 </script>
