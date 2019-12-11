@@ -121,7 +121,7 @@ export default {
       setTimeout(() => {
         if (this.exercises.length > exListLength) {
           this.clearForm()
-        }}, 1000)
+        }}, 100)
     },
     deleteExercise(id) {
       this.$store.dispatch('deleteExerciseById', id);
