@@ -41,7 +41,32 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    checkAuthorization(context) { // eslint-disable-line
+      if (typeof document.cookie != "undefined") {
+        let name = 'token' + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let cookieArray = decodedCookie.split(';');
+        for (var i = 0; i < cookieArray.length; i++) {
+          let c = cookieArray[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            var token = c.substring(name.length, c.length);
+          }
+        }
+        if (typeof token != 'undefined'){
+          context.commit('auth', token);
+          axios.defaults.headers.common["Authorization"] = token;
+          context.dispatch("populateExercises");
+        }
+      }
+    },
     login(context, loginData) {
+      let d = new Date();
+      d.setTime(d.getTime() + 3600000);
+      document.cookie = `token=${loginData.token};expires=${d.toUTCString()};path=/`;
+      axios.defaults.headers.common["Authorization"] = loginData.token;
       context.commit("auth", loginData.token);
       context.commit("setUser", loginData.username);
       context.dispatch("populateExercises");
