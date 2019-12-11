@@ -43,20 +43,25 @@ export default new Vuex.Store({
   actions: {
     checkAuthorization(context) { // eslint-disable-line
       if (typeof document.cookie != "undefined") {
-        let name = 'token' + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let cookieArray = decodedCookie.split(';');
-        for (var i = 0; i < cookieArray.length; i++) {
-          let c = cookieArray[i];
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            var token = c.substring(name.length, c.length);
+        const cookieDecode = function (cname) {
+          let name = cname + '=';
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let cookieArray = decodedCookie.split(';');
+          for (var i = 0; i < cookieArray.length; i++) {
+            let c = cookieArray[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
           }
         }
-        if (typeof token != 'undefined'){
+        let token = cookieDecode('token');
+        let user = cookieDecode('user')
+        if (typeof token != 'undefined' && typeof user != 'undefined') {
           context.commit('auth', token);
+          context.commit('setUser', user);
           axios.defaults.headers.common["Authorization"] = token;
           context.dispatch("populateExercises");
         }
@@ -66,6 +71,7 @@ export default new Vuex.Store({
       let d = new Date();
       d.setTime(d.getTime() + 3600000);
       document.cookie = `token=${loginData.token};expires=${d.toUTCString()};path=/`;
+      document.cookie = `user=${loginData.username};expires=${d.toUTCString()};path=/`;
       axios.defaults.headers.common["Authorization"] = loginData.token;
       context.commit("auth", loginData.token);
       context.commit("setUser", loginData.username);
@@ -106,7 +112,7 @@ export default new Vuex.Store({
           console.error(err);
         });
     },
-    editExercise({ commit }, {id, exerciseObject}) {
+    editExercise({ commit }, { id, exerciseObject }) {
       console.log(exerciseObject)
       axios
         .put("http://localhost:5000/exercises/" + id, exerciseObject)
