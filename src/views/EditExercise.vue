@@ -4,12 +4,18 @@
       <div class="col-lg-6">
         <div class="card bg-light mt-3">
           <div class="card-body">
-            <div class="spinner-border text-primary" role="status" v-if="!renderForm">
+            <div
+              class="spinner-border text-primary"
+              role="status"
+              v-if="!renderForm"
+            >
               <span class="sr-only">Loading...</span>
             </div>
             <form @submit.prevent="editExercise" v-if="renderForm">
               <h3 class="font-weight-light mb-3 text-center">Edit Exercise</h3>
-              <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+              <div v-if="error" class="col-12 alert alert-danger px-3">
+                {{ error }}
+              </div>
               <div class="form-row">
                 <section class="col-sm-12 form-group">
                   <input
@@ -35,13 +41,24 @@
                 </section>
 
                 <section class="col-sm-6 form-group">
-                  <input class="form-control" type="date" required v-model="newDate" />
+                  <input
+                    class="form-control"
+                    type="date"
+                    required
+                    v-model="newDate"
+                  />
                 </section>
               </div>
 
               <div class="form-group text-right mb-0">
-                <input class="btn btn-primary" value="Edit Exercise" type="submit" />
-                <router-link class="btn btn-secondary ml-2" to="/exercise-log">Cancel</router-link>
+                <input
+                  class="btn btn-primary"
+                  value="Edit Exercise"
+                  type="submit"
+                />
+                <router-link class="btn btn-secondary ml-2" to="/exercise-log"
+                  >Cancel</router-link
+                >
               </div>
             </form>
           </div>
@@ -104,5 +121,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

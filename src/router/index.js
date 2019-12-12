@@ -33,7 +33,7 @@ const routes = [
     path: "/edit/:id",
     name: "edit",
     component: EditExercise
-  },
+  }
 ];
 
 const router = new VueRouter({

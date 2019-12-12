@@ -8,7 +8,9 @@
             class="ml-3 btn btn-primary font-weight-bold"
             v-if="!addExerciseFormVisible"
             @click.prevent="showForm()"
-          >+</button>
+          >
+            +
+          </button>
         </h1>
         <div class="card bg-light py-0" v-if="addExerciseFormVisible">
           <div class="card-body text-center pb-1">
@@ -40,8 +42,17 @@
                 </section>
               </div>
               <div class="form-group text-right mb-0">
-                <input class="btn btn-primary" value="Add Exercise" type="submit" />
-                <button class="btn btn-secondary ml-2" @click.prevent="clearForm()">Cancel</button>
+                <input
+                  class="btn btn-primary"
+                  value="Add Exercise"
+                  type="submit"
+                />
+                <button
+                  class="btn btn-secondary ml-2"
+                  @click.prevent="clearForm()"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -54,19 +65,35 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="font-weight-normal text-center" scope="col">Exercise</th>
-                <th class="font-weight-normal text-center" scope="col">Duration (min.)</th>
+                <th class="font-weight-normal text-center" scope="col">
+                  Exercise
+                </th>
+                <th class="font-weight-normal text-center" scope="col">
+                  Duration (min.)
+                </th>
                 <th class="font-weight-normal text-center" scope="col">Date</th>
-                <th class="font-weight-normal text-center" scope="col">Actions</th>
+                <th class="font-weight-normal text-center" scope="col">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in exercises" :key="item._id">
-                <td class="font-weight-light text-center">{{ item.description }}</td>
-                <td class="font-weight-light text-center">{{ item.duration }}</td>
-                <td class="font-weight-light text-center">{{ item.date.substr(0, 10) }}</td>
+                <td class="font-weight-light text-center">
+                  {{ item.description }}
+                </td>
+                <td class="font-weight-light text-center">
+                  {{ item.duration }}
+                </td>
+                <td class="font-weight-light text-center">
+                  {{ item.date.substr(0, 10) }}
+                </td>
                 <td class="text-center">
-                  <router-link class="btn btn-sm btn-outline-secondary" title="Edit" :to="'/edit/' + item._id">
+                  <router-link
+                    class="btn btn-sm btn-outline-secondary"
+                    title="Edit"
+                    :to="'/edit/' + item._id"
+                  >
                     <font-awesome-icon icon="edit" />
                   </router-link>
 
@@ -112,19 +139,20 @@ export default {
       this.addExerciseFormVisible = false;
     },
     addExercise() {
-      const exListLength = this.exercises.length
-      this.$store.dispatch('addExercise', {
+      const exListLength = this.exercises.length;
+      this.$store.dispatch("addExercise", {
         description: this.newDescription,
         duration: this.newDuration,
         date: this.newDate
-      })
+      });
       setTimeout(() => {
         if (this.exercises.length > exListLength) {
-          this.clearForm()
-        }}, 100)
+          this.clearForm();
+        }
+      }, 100);
     },
     deleteExercise(id) {
-      this.$store.dispatch('deleteExerciseById', id);
+      this.$store.dispatch("deleteExerciseById", id);
     }
   },
   computed: {

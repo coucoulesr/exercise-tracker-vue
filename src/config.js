@@ -1,1 +1,1 @@
-exports.BACKEND_URI = 'http://localhost:5000'
+exports.BACKEND_URI = "http://localhost:5000";

@@ -8,9 +8,13 @@
               <div class="card-body">
                 <h3 class="font-weight-light mb-3">Register</h3>
                 <div class="form-row">
-                  <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+                  <div v-if="error" class="col-12 alert alert-danger px-3">
+                    {{ error }}
+                  </div>
                   <section class="col-sm-12 form-group">
-                    <label class="form-control-label sr-only" for="displayName">Username</label>
+                    <label class="form-control-label sr-only" for="displayName"
+                      >Username</label
+                    >
                     <input
                       class="form-control"
                       type="text"
@@ -44,7 +48,9 @@
                   </section>
                 </div>
                 <div class="form-group text-right mb-0">
-                  <button class="btn btn-primary" type="submit">Register</button>
+                  <button class="btn btn-primary" type="submit">
+                    Register
+                  </button>
                 </div>
               </div>
             </div>
@@ -61,7 +67,7 @@
 
 <script>
 import axios from "axios";
-import { BACKEND_URI } from '../config';
+import { BACKEND_URI } from "../config";
 
 export default {
   name: "register",

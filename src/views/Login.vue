@@ -8,8 +8,12 @@
               <div class="card-body">
                 <h3 class="font-weight-light mb-3">Log in</h3>
                 <section class="form-group">
-                  <div class="col-12 alert alert-danger px-3" v-if="error">{{ error }}</div>
-                  <label class="form-control-label sr-only" for="Username">Username</label>
+                  <div class="col-12 alert alert-danger px-3" v-if="error">
+                    {{ error }}
+                  </div>
+                  <label class="form-control-label sr-only" for="Username"
+                    >Username</label
+                  >
                   <input
                     required
                     class="form-control"
@@ -46,7 +50,7 @@
 
 <script>
 import axios from "axios";
-import { BACKEND_URI } from '../config';
+import { BACKEND_URI } from "../config";
 
 export default {
   name: "login",
