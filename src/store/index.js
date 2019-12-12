@@ -21,7 +21,6 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.token = "";
-      localStorage.clear("token");
       state.loggedIn = false;
     },
     setExercises(state, exerciseArray) {
@@ -78,6 +77,8 @@ export default new Vuex.Store({
       context.dispatch("populateExercises");
     },
     logout({ commit }) {
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       commit("logout");
     },
     populateExercises({ commit }) {
