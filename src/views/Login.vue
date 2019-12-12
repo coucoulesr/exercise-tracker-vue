@@ -65,8 +65,6 @@ export default {
           password: this.password
         })
         .then(response => {
-          localStorage.setItem("token", response.data);
-          axios.defaults.headers.common["Authorization"] = response.data;
           this.$store.dispatch("login", {
             token: response.data,
             username: this.username
