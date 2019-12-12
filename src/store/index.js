@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import { BACKEND_URI } from '../config';
 
 Vue.use(Vuex);
 
@@ -83,7 +84,7 @@ export default new Vuex.Store({
     },
     populateExercises({ commit }) {
       axios
-        .get("http://localhost:5000/exercises/")
+        .get(BACKEND_URI + "/exercises/")
         .then(res => {
           commit("setExercises", res.data);
         })
@@ -93,7 +94,7 @@ export default new Vuex.Store({
     },
     addExercise({ commit }, exerciseObject) {
       axios
-        .post("http://localhost:5000/exercises/", exerciseObject)
+        .post(BACKEND_URI + "/exercises/", exerciseObject)
         .then(res => {
           commit("addExercise", res.data);
         })
@@ -103,7 +104,7 @@ export default new Vuex.Store({
     },
     deleteExerciseById({ commit }, id) {
       axios
-        .delete("http://localhost:5000/exercises/" + id)
+        .delete(BACKEND_URI + "/exercises/" + id)
         .then(res => {
           if (res.status == 204) {
             commit("removeExerciseById", id);
@@ -116,7 +117,7 @@ export default new Vuex.Store({
     editExercise({ commit }, { id, exerciseObject }) {
       console.log(exerciseObject)
       axios
-        .put("http://localhost:5000/exercises/" + id, exerciseObject)
+        .put(BACKEND_URI + "/exercises/" + id, exerciseObject)
         .then(res => {
           console.log(res)
           commit("editExerciseById", { id: res.data._id, exerciseObject: res.data });

@@ -46,6 +46,7 @@
 
 <script>
 import axios from "axios";
+import { BACKEND_URI } from '../config';
 
 export default {
   name: "login",
@@ -60,7 +61,7 @@ export default {
     login: function() {
       this.error = "";
       axios
-        .post("http://localhost:5000/login", {
+        .post(BACKEND_URI + "/login", {
           username: this.username,
           password: this.password
         })
