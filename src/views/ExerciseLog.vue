@@ -7,7 +7,7 @@
           <button
             class="ml-3 btn btn-primary font-weight-bold"
             v-if="!addExerciseFormVisible"
-            @click.prevent="showForm()"
+            @click.prevent="showForm"
           >
             +
           </button>
@@ -49,7 +49,7 @@
                 />
                 <button
                   class="btn btn-secondary ml-2"
-                  @click.prevent="clearForm()"
+                  @click.prevent="clearForm"
                 >
                   Cancel
                 </button>
@@ -66,19 +66,125 @@
             <thead>
               <tr>
                 <th class="font-weight-normal text-center" scope="col">
-                  Exercise
+                  <button
+                    :class="searchTerm ? 'btn-warning' : 'btn-light'"
+                    class="btn dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    @click="toggleSearchBox"
+                  >
+                    Exercise
+                  </button>
                 </th>
                 <th class="font-weight-normal text-center" scope="col">
-                  Duration (min.)
+                  <button
+                    :class="
+                      durationGT || durationLT ? 'btn-warning' : 'btn-light'
+                    "
+                    class="btn dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    @click="toggleDurationBox"
+                  >
+                    Duration (min.)
+                  </button>
                 </th>
-                <th class="font-weight-normal text-center" scope="col">Date</th>
                 <th class="font-weight-normal text-center" scope="col">
-                  Actions
+                  <button
+                    :class="startDate || endDate ? 'btn-warning' : 'btn-light'"
+                    class="btn dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    @click="toggleDateBox"
+                  >
+                    Date
+                  </button>
+                </th>
+                <th class="font-weight-normal text-center" scope="col">
+                  <button class="btn btn-light" disabled>Actions</button>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in exercises" :key="item._id">
+              <tr v-if="searchBoxVisible">
+                <td colspan="4">
+                  <form class="form-inline">
+                    <div class="mx-auto form-group">
+                      <input
+                        class="form-control mr-2"
+                        type="search"
+                        placeholder="Search by Exercise Name"
+                        aria-label="Search"
+                        v-model="searchTerm"
+                      />
+                      <button
+                        class="btn btn-outline-secondary my-2 my-sm-0"
+                        @click.prevent="clearSearchBox"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+              <tr v-if="durationBoxVisible">
+                <td colspan="4">
+                  <form class="form-inline">
+                    <div class="mx-auto form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Min Length (min.)"
+                        v-model="durationGT"
+                      />
+                      <input
+                        class="form-control mx-1"
+                        placeholder="Max Length (min.)"
+                        v-model="durationLT"
+                      />
+                      <button
+                        class="btn btn-outline-secondary my-2 my-sm-0"
+                        @click.prevent="clearDurationBox"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+              <tr v-if="dateBoxVisible">
+                <td colspan="4">
+                  <form class="form-inline">
+                    <div class="mx-auto form-group">
+                      <label for="start-date" class="mr-1">Start Date:</label>
+                      <input
+                        id="start-date"
+                        class="form-control"
+                        type="date"
+                        v-model="startDate"
+                      />
+                      <label for="end-date" class="ml-2 mr-1">End Date:</label>
+                      <input
+                        id="end-date"
+                        class="form-control"
+                        type="date"
+                        v-model="endDate"
+                      />
+                      <button
+                        class="btn btn-outline-secondary ml-1 my-2 my-sm-0"
+                        @click.prevent="clearDateBox"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+              <tr v-for="item in filteredOutput" :key="item._id">
                 <td class="font-weight-light text-center">
                   {{ item.description }}
                 </td>
@@ -125,7 +231,15 @@ export default {
       newDate: new Date(),
       newDuration: "",
       newDescription: "",
-      addExerciseFormVisible: false
+      searchTerm: "",
+      durationGT: null,
+      durationLT: null,
+      startDate: null,
+      endDate: null,
+      addExerciseFormVisible: false,
+      searchBoxVisible: false,
+      durationBoxVisible: false,
+      dateBoxVisible: false
     };
   },
   methods: {
@@ -153,11 +267,49 @@ export default {
     },
     deleteExercise(id) {
       this.$store.dispatch("deleteExerciseById", id);
+    },
+    toggleSearchBox() {
+      this.searchBoxVisible = !this.searchBoxVisible;
+    },
+    clearSearchBox() {
+      this.searchBoxVisible = false;
+      this.searchTerm = "";
+    },
+    toggleDurationBox() {
+      this.durationBoxVisible = !this.durationBoxVisible;
+    },
+    clearDurationBox() {
+      this.durationBoxVisible = false;
+      this.durationGT = null;
+      this.durationLT = null;
+    },
+    toggleDateBox() {
+      this.dateBoxVisible = !this.dateBoxVisible;
+    },
+    clearDateBox() {
+      this.dateBoxVisible = false;
+      this.startDate = null;
+      this.endDate = null;
     }
   },
   computed: {
-    exercises: function() {
-      return this.$store.state.exercises;
+    filteredOutput: function() {
+      let search = this.$store.state.exercises.filter(ex =>
+        ex.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+      if (this.durationGT) {
+        search = search.filter(ex => ex.duration >= this.durationGT);
+      }
+      if (this.durationLT) {
+        search = search.filter(ex => ex.duration <= this.durationLT);
+      }
+      if (this.startDate) {
+        search = search.filter(ex => ex.date >= this.startDate);
+      }
+      if (this.endDate) {
+        search = search.filter(ex => ex.date <= this.endDate);
+      }
+      return search;
     }
   },
   components: {
