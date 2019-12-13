@@ -247,23 +247,19 @@ export default {
       this.addExerciseFormVisible = true;
     },
     clearForm() {
-      this.newDate = new Date();
+      this.newDate = null;
       this.newDuration = "";
       this.newDescription = "";
       this.addExerciseFormVisible = false;
     },
     addExercise() {
-      const exListLength = this.exercises.length;
+      console.log('addExercise invoked')
       this.$store.dispatch("addExercise", {
         description: this.newDescription,
         duration: this.newDuration,
         date: this.newDate
       });
-      setTimeout(() => {
-        if (this.exercises.length > exListLength) {
-          this.clearForm();
-        }
-      }, 100);
+      setTimeout(this.clearForm, 500);
     },
     deleteExercise(id) {
       this.$store.dispatch("deleteExerciseById", id);
