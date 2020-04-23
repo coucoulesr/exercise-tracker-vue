@@ -12,9 +12,10 @@
           <p class="lead text-justify mb-4">
             This single-page application incorporates the MEVN stack (MongoDB,
             Express.js, Vue.js, and Node.js) to provide a robust user experience
-            based on RESTful principles. This app is a fully-fledged product
-            based on best principles in authorization, security, session and
-            state memory. The source code for the frontend of this application
+            based on RESTful principles. This app utilizes a hand-built Express.js
+            backend deployed on GCP and a MongoDB Atlas cluster. This app is a 
+            fully-fledged product based on best principles in authorization, security, 
+            session and state memory. The source code for the frontend of this application
             is available on
             <a href="https://github.com/coucoulesr/exercise-tracker-vue"
               >GitHub</a
