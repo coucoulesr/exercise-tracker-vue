@@ -8,9 +8,7 @@
             class="ml-3 btn btn-primary font-weight-bold"
             v-if="!addExerciseFormVisible"
             @click.prevent="showForm"
-          >
-            +
-          </button>
+          >+</button>
         </h1>
         <div class="card bg-light py-0" v-if="addExerciseFormVisible">
           <div class="card-body text-center pb-1">
@@ -42,17 +40,8 @@
                 </section>
               </div>
               <div class="form-group text-right mb-0">
-                <input
-                  class="btn btn-primary"
-                  value="Add Exercise"
-                  type="submit"
-                />
-                <button
-                  class="btn btn-secondary ml-2"
-                  @click.prevent="clearForm"
-                >
-                  Cancel
-                </button>
+                <input class="btn btn-primary" value="Add Exercise" type="submit" />
+                <button class="btn btn-secondary ml-2" @click.prevent="clearForm">Cancel</button>
               </div>
             </form>
           </div>
@@ -60,8 +49,8 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-11 col-md-8 col-lg-6">
-        <div class="card rounded-0">
+      <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+        <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
@@ -74,9 +63,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                     @click="toggleSearchBox"
-                  >
-                    Exercise
-                  </button>
+                  >Exercise</button>
                 </th>
                 <th class="font-weight-normal text-center" scope="col">
                   <button
@@ -89,9 +76,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                     @click="toggleDurationBox"
-                  >
-                    Duration (min.)
-                  </button>
+                  >Duration (min.)</button>
                 </th>
                 <th class="font-weight-normal text-center" scope="col">
                   <button
@@ -101,9 +86,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                     @click="toggleDateBox"
-                  >
-                    Date
-                  </button>
+                  >Date</button>
                 </th>
                 <th class="font-weight-normal text-center" scope="col">
                   <button class="btn btn-light" disabled>Actions</button>
@@ -125,9 +108,7 @@
                       <button
                         class="btn btn-outline-secondary my-2 my-sm-0"
                         @click.prevent="clearSearchBox"
-                      >
-                        Clear
-                      </button>
+                      >Clear</button>
                     </div>
                   </form>
                 </td>
@@ -149,9 +130,7 @@
                       <button
                         class="btn btn-outline-secondary my-2 my-sm-0"
                         @click.prevent="clearDurationBox"
-                      >
-                        Clear
-                      </button>
+                      >Clear</button>
                     </div>
                   </form>
                 </td>
@@ -161,39 +140,21 @@
                   <form class="form-inline">
                     <div class="mx-auto form-group">
                       <label for="start-date" class="mr-1">Start Date:</label>
-                      <input
-                        id="start-date"
-                        class="form-control"
-                        type="date"
-                        v-model="startDate"
-                      />
+                      <input id="start-date" class="form-control" type="date" v-model="startDate" />
                       <label for="end-date" class="ml-2 mr-1">End Date:</label>
-                      <input
-                        id="end-date"
-                        class="form-control"
-                        type="date"
-                        v-model="endDate"
-                      />
+                      <input id="end-date" class="form-control" type="date" v-model="endDate" />
                       <button
                         class="btn btn-outline-secondary ml-1 my-2 my-sm-0"
                         @click.prevent="clearDateBox"
-                      >
-                        Clear
-                      </button>
+                      >Clear</button>
                     </div>
                   </form>
                 </td>
               </tr>
               <tr v-for="item in filteredOutput" :key="item._id">
-                <td class="font-weight-light text-center">
-                  {{ item.description }}
-                </td>
-                <td class="font-weight-light text-center">
-                  {{ item.duration }}
-                </td>
-                <td class="font-weight-light text-center">
-                  {{ item.date.substr(0, 10) }}
-                </td>
+                <td class="font-weight-light text-center">{{ item.description }}</td>
+                <td class="font-weight-light text-center">{{ item.duration }}</td>
+                <td class="font-weight-light text-center">{{ item.date.substr(0, 10) }}</td>
                 <td class="text-center">
                   <router-link
                     class="btn btn-sm btn-outline-secondary"
@@ -253,7 +214,7 @@ export default {
       this.addExerciseFormVisible = false;
     },
     addExercise() {
-      console.log('addExercise invoked')
+      console.log("addExercise invoked");
       this.$store.dispatch("addExercise", {
         description: this.newDescription,
         duration: this.newDuration,
