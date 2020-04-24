@@ -89,7 +89,7 @@ export default new Vuex.Store({
     },
     populateExercises({ commit }) {
       axios
-        .get(BACKEND_URI + "/exercises/")
+        .get(BACKEND_URI)
         .then(res => {
           commit("setExercises", res.data);
         })
@@ -99,7 +99,7 @@ export default new Vuex.Store({
     },
     addExercise({ commit }, exerciseObject) {
       axios
-        .post(BACKEND_URI + "/exercises/", exerciseObject)
+        .post(BACKEND_URI, exerciseObject)
         .then(res => {
           commit("addExercise", res.data);
         })
@@ -109,7 +109,7 @@ export default new Vuex.Store({
     },
     deleteExerciseById({ commit }, id) {
       axios
-        .delete(BACKEND_URI + "/exercises/" + id)
+        .delete(BACKEND_URI + "/" + id)
         .then(res => {
           if (res.status == 204) {
             commit("removeExerciseById", id);
@@ -122,7 +122,7 @@ export default new Vuex.Store({
     editExercise({ commit }, { id, exerciseObject }) {
       console.log(exerciseObject);
       axios
-        .put(BACKEND_URI + "/exercises/" + id, exerciseObject)
+        .put(BACKEND_URI + "/" + id, exerciseObject)
         .then(res => {
           console.log(res);
           commit("editExerciseById", {
